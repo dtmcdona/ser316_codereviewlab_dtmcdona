@@ -14,6 +14,7 @@ class ServerSolution implements AccountServer {
 
 	Map<String,Account> accountMap = null;
 
+	
 	public ServerSolution() {
 		accountMap = new HashMap<String,Account>();
 		File file = new File(fileName);
@@ -26,9 +27,9 @@ class ServerSolution implements AccountServer {
 				Integer sizeI = (Integer) in.readObject();
 				int size = sizeI.intValue();
 				for (int i=0; i < size; i++) {
-					Account acc = (Account) in.readObject();
-					if (acc != null)
-						accountMap.put(acc.getName(), acc);
+					Account account= (Account) in.readObject();
+					if (account!= null)
+						accountMap.put(account.getName(), account);
 				}
 			}
 		} catch (Exception e) {
@@ -45,23 +46,24 @@ class ServerSolution implements AccountServer {
 		}
 	}
 	
+	
 	private boolean newAccountFactory(String type, String name, float balance)
 		throws IllegalArgumentException {
 		
 		if (accountMap.get(name) != null) return false;
 		
-		Account acc;
+		Account account;
 		if ("Checking".equals(type)) {
-			acc = new Checking(name, balance);
+			account= new Checking(name, balance);
 
 		} else if ("Savings".equals(type)) {
-			acc = new Savings(name, balance);
+			account= new Savings(name, balance);
 
 		} else {
 			throw new IllegalArgumentException("Bad account type:" + type);
 		}
 		try {
-			accountMap.put(acc.getName(), acc);
+			accountMap.put(account.getName(), account);
 		} catch (Exception exc) {
 			return false;
 		}
@@ -77,11 +79,11 @@ class ServerSolution implements AccountServer {
 	}
 	
 	public boolean closeAccount(String name) {
-		Account acc = accountMap.get(name);
-		if (acc == null) {
+		Account account= accountMap.get(name);
+		if (account== null) {
 			return false;
 		}
-		acc.setState(State.CLOSED);
+		account.setState(State.CLOSED);
 		return true;
 	}
 
@@ -96,9 +98,9 @@ class ServerSolution implements AccountServer {
 	public List<Account> getActiveAccounts() {
 		List<Account> result = new ArrayList<Account>();
 
-		for (Account acc : accountMap.values()) {
-			if (acc.getState() != State.CLOSED) {
-				result.add(acc);
+		for (Account account: accountMap.values()) {
+			if (account.getState() != State.CLOSED) {
+				result.add(account);
 			}
 		}
 		return result;
