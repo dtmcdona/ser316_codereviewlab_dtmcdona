@@ -9,6 +9,8 @@ public class Checking extends Account {
 		super(name);
 	}
 
+	public String getType() { return "Checking"; }
+	
     public static Checking createChecking(String name) {
         return new Checking(name);
     }
@@ -52,8 +54,6 @@ public class Checking extends Account {
 		}
 		return false;
 	}
-
-	public String getType() { return "Checking"; }
 	
 	public String toString() {
 		return "Checking: " + getName() + ": " + getBalance();
